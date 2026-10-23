@@ -6,31 +6,33 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('ventas', function (Blueprint $table) {
-            $table->id('id_venta'); // PK[cite: 2]
+            $table->id('id_venta');
             
-            // FK hacia Usuarios[cite: 2]
-            $table->unsignedBigInteger('usuario_id');[cite: 2]
-            $table->foreign('usuario_id')
-                  ->references('id_usuario')
-                  ->on('usuarios')
-                  ->onDelete('cascade');
+            // Relación usuario_id -> usuarios(id_usuario)
+            $table->foreignId('usuario_id')
+                  ->constrained('usuarios', 'id_usuario')
+                  ->cascadeOnDelete();
 
-            // FK hacia Productos[cite: 2]
-            $table->unsignedBigInteger('producto_id');[cite: 2]
-            $table->foreign('producto_id')
-                  ->references('id_producto')
-                  ->on('productos')
-                  ->onDelete('cascade');
+            // Relación producto_id -> productos(id_producto)
+            $table->foreignId('producto_id')
+                  ->constrained('productos', 'id_producto')
+                  ->cascadeOnDelete();
 
-            $table->decimal('monto_venta', 10, 2);[cite: 2]
-            $table->integer('cantidad_venta')->default(1);[cite: 2]
+            $table->decimal('monto_venta', 10, 2);
+            $table->integer('cantidad_venta')->default(1);
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('ventas');

@@ -2,31 +2,49 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    // Indicamos el nombre exacto de la tabla y la llave primaria en español
+    protected $table = 'usuarios';
+    protected $primaryKey = 'id_usuario';
+
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Atributos asignables en masa.
      */
-    protected function casts(): array
+    protected $fillable = [
+        'nombre_usuario',
+        'nick_usuario',
+        'correo_usuario',
+        'contrasena_usuario',
+    ];
+
+    /**
+     * Atributos ocultos en serialización.
+     */
+    protected $hidden = [
+        'contrasena_usuario',
+        'remember_token',
+    ];
+
+    /**
+     * Le indicamos a Laravel cuál es el campo para la contraseña
+     */
+    public function getAuthPassword()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->contrasena_usuario;
+    }
+
+    /**
+     * Le indicamos a Laravel cuál es el campo para el nombre de usuario/correo al autenticar
+     */
+    public function getEmailForPasswordReset()
+    {
+        return $this->correo_usuario;
     }
 }

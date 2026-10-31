@@ -14,20 +14,16 @@ class Venta extends Model
 
     protected $fillable = [
         'usuario_id',
-        'producto_id',
         'monto_venta',
-        'cantidad_venta',
     ];
 
-    // Relación: Una venta pertenece a un producto
-    public function producto()
+    public function detalles()
     {
-        return $this->belongsTo(Producto::class, 'producto_id', 'id_producto');
+        return $this->hasMany(DetalleVenta::class, 'venta_id', 'id_venta');
     }
 
-    // Relación: Una venta pertenece a un usuario
     public function usuario()
     {
         return $this->belongsTo(User::class, 'usuario_id', 'id_usuario');
     }
-}
+}   

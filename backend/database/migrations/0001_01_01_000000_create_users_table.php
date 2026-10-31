@@ -29,10 +29,17 @@ return new class extends Migration
             $table->timestamp('created_at')->nullable();
         });
 
-        // 3. Tabla de sesiones de Laravel
+        // 3. Tabla de sesiones de Laravel (manteniendo user_id para compatibilidad nativa)
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('usuario_id')->nullable()->constrained('usuarios', 'id_usuario')->cascadeOnDelete();
+            
+            // Laravel busca la columna user_id automáticamente
+            $table->foreignId('user_id')
+                  ->nullable()
+                  ->index()
+                  ->constrained('usuarios', 'id_usuario')
+                  ->cascadeOnDelete();
+
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');

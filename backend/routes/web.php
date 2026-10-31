@@ -20,4 +20,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pos', [ProductosController::class, 'index'])->name('pos.index');
     Route::post('/productos', [ProductosController::class, 'store'])->name('productos.store');
     Route::post('/ventas', [VentasController::class, 'store'])->name('ventas.store');
+    Route::get('/historial', [VentasController::class, 'historial'])->name('ventas.historial');
 });

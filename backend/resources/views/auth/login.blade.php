@@ -80,13 +80,13 @@
         <div class="mb-3">
             <label for="nick_usuario" class="form-label text-secondary small fw-medium">Usuario</label>
             <div class="input-group">
-                <input type="text" name="nick_usuario" id="nick_usuario" class="form-control" required placeholder="admin">
+                <input type="text" name="nick_usuario" id="nick_usuario" class="form-control" required placeholder="usuario">
             </div>
         </div>
 
         <div class="mb-4">
             <label for="contrasena_usuario" class="form-label text-secondary small fw-medium">Contraseña</label>
-            <input type="password" name="contrasena_usuario" id="contrasena_usuario" class="form-control" required placeholder="••••••••">
+            <input type="password" name="contrasena_usuario" id="contrasena_usuario" class="form-control" required placeholder="- - - - -">
         </div>
 
         <button type="submit" class="btn btn-primary btn-primary-custom text-white w-100">

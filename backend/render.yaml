@@ -1,0 +1,54 @@
+services:
+  - type: web
+    name: punto-venta-web
+    runtime: docker
+    plan: 0.5c-512mb
+    region: oregon
+
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /up
+    preDeployCommand: php artisan migrate --force
+    disk:
+      name: product-images
+      mountPath: /var/www/html/storage/app/public
+      sizeGB: 1
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        sync: false
+      - key: APP_URL
+        fromService:
+          type: web
+          name: punto-venta-web
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: ASSET_URL
+        fromService:
+          type: web
+          name: punto-venta-web
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_URL
+        fromDatabase:
+          name: punto-venta-db
+          property: connectionString
+      - key: SESSION_DRIVER
+        value: database
+      - key: SESSION_SECURE_COOKIE
+        value: true
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
+      - key: FILESYSTEM_DISK
+        value: public
+
+databases:
+  - name: punto-venta-db
+    databaseName: punto_venta
+    user: punto_venta
+    plan: 0.1c-256mb
+    region: oregon

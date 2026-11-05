@@ -5,7 +5,8 @@ services:
     plan: 0.5c-512mb
     region: oregon
 
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
     healthCheckPath: /up
     preDeployCommand: php artisan migrate --force
     disk:
@@ -31,7 +32,7 @@ services:
           envVarKey: RENDER_EXTERNAL_URL
       - key: DB_CONNECTION
         value: pgsql
-      - key: DB_URL
+      - key: DATABASE_URL
         fromDatabase:
           name: punto-venta-db
           property: connectionString
